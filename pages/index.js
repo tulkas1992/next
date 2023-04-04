@@ -11,9 +11,14 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   return (
     <>
-    <main className={styles.main}>
+    <div className={styles.main}>
      <Layout ></Layout>
-     </main>
+     </div>
     </>
   )
 }
+
+
+
+//curso https://www.youtube.com/watch?v=pFT8wD2uRSE&t=319s&ab_channel=midulive 
+// min 42m

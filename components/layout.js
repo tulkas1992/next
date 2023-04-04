@@ -2,9 +2,12 @@ import Head from 'next/head'
 import style from "../styles/Layout.module.css"
 // import styleGlobal from "../styles/globals.css"
 import Link from "next/link"
+import {useRouter} from "next/router"
 
 
 export default function Layout ({children,  title}){
+
+  const router = useRouter()
 
     return (<>
      <Head>
@@ -20,15 +23,15 @@ export default function Layout ({children,  title}){
           <li>
           <Link href="/about">About</Link>
           </li>
+         
           <li>
-          <Link href="/faq">Este es un link</Link>
-          </li>
-          <li>
-          <Link href="/faq">Este es un link</Link>
+          <Link href="/level/anidado/anidado">Este es un link</Link>
           </li>
           </ul>
         </div>
          <h1>Mi web en next sas</h1>
+
+         <button onClick={() =>  router.push("level/anidado/anidado/2")}>Navegar de forma programatica</button>
         
       </main>
     </>

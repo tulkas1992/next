@@ -3,23 +3,23 @@ import { useState, useEffect } from 'react';
 import "@fontsource/inter";
 import styles from '@/styles/Home.module.css'
 import Layout from '../components/layout';
+import PersonajesSingle from '../components/personajeSingle';
+import { useRouter } from 'next/router';
 
 
 
 export default function Home() {
 
   const [personajes, setPersonajes] = useState(null);
-  const [value, setValue] = useState('');
+  const router = useRouter();
 
+  useEffect(() => {
+    const { query } = router;
+    const id = query.id;
+    // Aquí puedes hacer lo que necesites con el ID
+  console.log("id de la ruta"+id);
 
-const handleChange = (event) => {
- 
-  // setValue(event.target.value);
-  let valor = event.target.value;
-
-
-}
-
+  }, [router]);
 
 
   return (
@@ -28,9 +28,14 @@ const handleChange = (event) => {
     <Layout >
 
     <div className='w-[70vw]'>
-      <input type='text' placeholder='Filtra el personaje' value={value}  onChange={handleChange} ></input>
-      <h1>Esto viene desde el inicio aca colocamos la informacion de el personaje</h1>
+    <div className="px-30">
+      Victor Ruiz Reyes<br/>
+      vr242355@gmail.com<br/>
+      3153364783
+      </div>
+
      </div>
+
     </Layout>
    
      

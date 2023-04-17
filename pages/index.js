@@ -1,18 +1,40 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { useState, useEffect } from 'react';
 import "@fontsource/inter";
 import styles from '@/styles/Home.module.css'
-import Link from "next/link"
 import Layout from '../components/layout';
 
-const inter = Inter({ subsets: ['latin'] })
+
 
 export default function Home() {
+
+  const [personajes, setPersonajes] = useState(null);
+  const [value, setValue] = useState('');
+
+
+const handleChange = (event) => {
+ 
+  // setValue(event.target.value);
+  let valor = event.target.value;
+
+
+}
+
+
+
   return (
     <>
     <div className={styles.main}>
-     <Layout ></Layout>
+    <Layout >
+
+    <div className='w-[70vw]'>
+      <input type='text' placeholder='Filtra el personaje' value={value}  onChange={handleChange} ></input>
+      <h1>Esto viene desde el inicio aca colocamos la informacion de el personaje</h1>
+     </div>
+    </Layout>
+   
+     
+
      </div>
     </>
   )

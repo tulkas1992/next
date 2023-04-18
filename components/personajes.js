@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Personajes = () => {
   const [personajes, setPersonajes] = useState(null);
+  const [numPersonajesLike, setNumPersonajesLike] = useState(null)
   const [personajesFavorites, setPersonajesFavorites] = useState([]);
   const [value, setValue] = useState("");
   const [numPage, setNumPage] = useState("");
@@ -22,6 +23,7 @@ const Personajes = () => {
     const newPersonajes = personajes.filter((personaje) => personaje.id !== id);
     setPersonajes(newPersonajes);
     setPersonajesFavorites(newPersonajesFavorites);
+    setNumPersonajesLike(personajesFavorites.length+1)
   };
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Personajes = () => {
             onChange={handleChange}
           ></input>
         </div>
-        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Starred character</h3>
+        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Starred character ({numPersonajesLike})</h3>
         {personajesFavorites &&
           personajesFavorites.map((personaje, index) => (
             <div

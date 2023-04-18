@@ -46,6 +46,3 @@ export default function Home() {
 }
 
 
-
-//curso https://www.youtube.com/watch?v=pFT8wD2uRSE&t=319s&ab_channel=midulive 
-// min 42m

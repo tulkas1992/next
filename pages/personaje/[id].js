@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 
 
-export default function personaje() {
+export default function personaje({dataProps}) {
 
   const [infoPersonajes, setInfoPersonajes] = useState(null);
   const [id , setId] = useState(null)
@@ -31,10 +31,10 @@ export default function personaje() {
   return (
     <>
     <div>
-    <Layout >
+    <Layout data={dataProps}>
 
     <div className='w-[70vw]'>
-      <img src={infoPersonajes?.image} className="w-[75px] h-[75px] rounded-full mb-[8px]" />
+      <img src={infoPersonajes?.image} className="w-[75px] h-[75px] rounded-full mb-[8px  ]" />
 
       <h1 className='text-[24px] font-[700] color-[#111827] mb-[30px]'>{infoPersonajes?.name} </h1>
       <div className='pb-[16px]'>
@@ -59,6 +59,25 @@ export default function personaje() {
      </div>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const res = await fetch("https://rickandmortyapi.com/api/character/");
+  const data = await res.json();
+  const { results, info } = data;
+
+  const { query } = context;
+  //Recibir un parametro desde get llamado "q" del lado del servidor
+  const { q = "" , link = ""} = query;
+  console.log("sds" +  q+ link);
+
+  
+  const dataProps   = results.sort((a, b) => a.name.localeCompare(b.name));
+  return {
+    props: {
+      dataProps
+    }
+  }
 }
 
 

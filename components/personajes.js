@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from 'next/image';
 
-const Personajes = () => {
-  const [personajes, setPersonajes] = useState(null);
-  const [numPersonajesLike, setNumPersonajesLike] = useState(null)
+const Personajes = (props) => {
+  const [personajes, setPersonajes] = useState(props.info);
+  const [numPersonajesLike, setNumPersonajesLike] = useState(0)
+  const [numPersonajesDisLike, setNumPersonajesDisLike] = useState(props.info.length)
   const [personajesFavorites, setPersonajesFavorites] = useState([]);
   const [value, setValue] = useState("");
   const [numPage, setNumPage] = useState("");
+  const {info, mensaje} = props;
+
+
 
   const handleChange = (event) => {
     // setValue(event.target.value);
@@ -24,22 +29,26 @@ const Personajes = () => {
     setPersonajes(newPersonajes);
     setPersonajesFavorites(newPersonajesFavorites);
     setNumPersonajesLike(personajesFavorites.length+1)
+    setNumPersonajesDisLike(personajes.length-1)
   };
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("https://rickandmortyapi.com/api/character/");
-      const data = await res.json();
-      const { results, info } = data;
-
-      const filtro = results.sort((a, b) => a.name.localeCompare(b.name));
-
-      setPersonajes(filtro);
-      setNumPage(info.next);
-    }
-
-    fetchData();
+     //fetchData();
   }, []);
+
+
+
+  const fetchData = async() => {
+    const res = await fetch("https://rickandmortyapi.com/api/character/");
+    const data = await res.json();
+    const { results, info } = data;
+
+    const filtro = results.sort((a, b) => a.name.localeCompare(b.name));
+
+    setPersonajes(filtro);
+    setNumPage(info.next);
+    
+  }
 
   return (
     <>
@@ -72,8 +81,9 @@ const Personajes = () => {
                 />
               </div>
               <div className="pl-[10px] w-[247px]">
+              <Link href={`/personaje/${personaje.id}`}>
+
                 <h2 className="text-[16px] font-[600]">{personaje.name}</h2>
-                <Link href={`/personajes/${personaje.id}`}>
                   <p>
                     {personaje.species} - {personaje.status}
                   </p>
@@ -84,11 +94,12 @@ const Personajes = () => {
                   icon={faHeart}
                   color="#53C629"
                   onClick={(e) => handleClickLike(personaje.id)}
+                  width={20} 
                 />
               </div>
             </div>
           ))}
-        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Characters (4)</h3>
+        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Characters ({numPersonajesDisLike})</h3>
 
         {personajes &&
           personajes.map((personaje, index) => (
@@ -102,9 +113,12 @@ const Personajes = () => {
               }
             >
               <div className="flex items-center">
-                <img
+                <Image
                   src={personaje.image}
                   className="w-[25px] h-[25px] rounded-full"
+                  width={25}
+                  height={25}
+                  priority={true}
                   alt={personaje.name}
                 />
               </div>
@@ -120,7 +134,7 @@ const Personajes = () => {
                 className="w-[32px] h-[32px] bg-white flex rounded-full justify-center items-center"
                 onClick={(e) => handleClickLike(personaje.id)}
               >
-                <FontAwesomeIcon icon={faHeart} color="#53C629" />
+                <FontAwesomeIcon icon={faHeart} color="#e5e7eb" width={20} />
               </div>
             </div>
           ))}
@@ -130,5 +144,4 @@ const Personajes = () => {
     </>
   );
 };
-
 export default Personajes;

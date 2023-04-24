@@ -4,6 +4,7 @@ import "@fontsource/inter";
 import Layout from '../../components/layout';
 import PersonajesSingle from '../../components/personajeSingle';
 import { useRouter } from 'next/router';
+import endPoints from '@/services/apis';
 
 
 
@@ -17,7 +18,7 @@ export default function personaje({dataProps}) {
     async function fetchData() {
       const { query } = router;
       const id = query.id;
-      const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+      const res = await fetch(endPoints.characters.single(id));
       const data = await res.json();
       setInfoPersonajes(data);
       setId(id);
@@ -30,11 +31,9 @@ export default function personaje({dataProps}) {
 
   return (
     <>
-    <div>
-    <Layout data={dataProps}>
 
     <div className='w-[70vw]'>
-      <img src={infoPersonajes?.image} className="w-[75px] h-[75px] rounded-full mb-[8px  ]" />
+      <img src={infoPersonajes?.image} className="w-[175px] mx-auto h-auto rounded-full mb-[8px]" />
 
       <h1 className='text-[24px] font-[700] color-[#111827] mb-[30px]'>{infoPersonajes?.name} </h1>
       <div className='pb-[16px]'>
@@ -49,12 +48,6 @@ export default function personaje({dataProps}) {
        <h2 className='text-[16px] font-[600] color-[#111827]'>Origin </h2>
       <span className='text-[16px] font-[300] color-[#6B7280]'>{infoPersonajes?.origin.name}</span>
       </div>
-
-     </div>
-
-    </Layout>
-   
-     
 
      </div>
     </>

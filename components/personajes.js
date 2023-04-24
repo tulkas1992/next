@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
+import endPoints from "@/services/apis";
 import Link from "next/link";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from 'next/image';
 
-const Personajes = (props) => {
-  const [personajes, setPersonajes] = useState(props.info);
+const Personajes = () => {
+  const [personajes, setPersonajes] = useState([]);
   const [numPersonajesLike, setNumPersonajesLike] = useState(0)
-  const [numPersonajesDisLike, setNumPersonajesDisLike] = useState(props.info.length)
+  const [numPersonajesDisLike, setNumPersonajesDisLike] = useState(0)
   const [personajesFavorites, setPersonajesFavorites] = useState([]);
   const [value, setValue] = useState("");
   const [numPage, setNumPage] = useState("");
-  const {info, mensaje} = props;
 
 
 
@@ -33,13 +33,13 @@ const Personajes = (props) => {
   };
 
   useEffect(() => {
-     //fetchData();
+     fetchData();
   }, []);
 
 
 
   const fetchData = async() => {
-    const res = await fetch("https://rickandmortyapi.com/api/character/");
+    const res = await fetch(endPoints.characters.all);
     const data = await res.json();
     const { results, info } = data;
 

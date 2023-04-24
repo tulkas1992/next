@@ -48,7 +48,7 @@ const preferencias = ({dataProps}) => {
 
     
   return (
-    <Layout data={dataProps}>
+    <>
 
      
             <List
@@ -90,7 +90,7 @@ const preferencias = ({dataProps}) => {
       
        
 
-        </Layout>
+        </>
   )
 }
 

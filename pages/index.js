@@ -1,44 +1,89 @@
-import Head from 'next/head'
-import { useState, useEffect } from 'react';
+import Head from "next/head";
+import { useState, useEffect } from "react";
 import "@fontsource/inter";
-import styles from '@/styles/Home.module.css'
-import Layout from '../components/layout';
-import PersonajesSingle from '../components/personajeSingle';
-import { useRouter } from 'next/router';
+import styles from "@/styles/Home.module.css";
+import PersonajesSingle from "../components/personajeSingle";
+import { useRouter } from "next/router";
 import Nav from "../components/personajes";
+import useRickAndMortyCharacters from "@/hooks/useRickAndMortyCharacters";
 
+const Home = ({ dataProps }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const { characters, totalPages, nextPage, prevPage } =
+    useRickAndMortyCharacters(currentPage);
+  const [next, setNext] = useState(nextPage);
 
+  const handleClick = (numPage) => {
+    console.log(numPage);
+    setCurrentPage(numPage);
+  };
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
 
-const Home = ({dataProps}) => {
+    pageNumbers.push(
+      <li
+        key={"prev"}
+        onClick={() => handleClick(next)}
+        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+      >
+        atrás
+      </li>
+    );
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li
+          key={i}
+          className={
+            currentPage === i
+              ? "active bg-primary relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              : "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          }
+        >
+          <button onClick={() => handleClick(i)}>{i}</button>
+        </li>
+      );
+    }
+    pageNumbers.push(
+      <a
+        href="#"
+        key={"nex"}
+        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+      >
+        adelante
+      </a>
+    );
 
-  const [personajes, setPersonajes] = useState(null);
- console.log("BIEN",  dataProps);
+    return pageNumbers;
+  };
 
   return (
     <>
-    <div className={styles.main}>
-      
-    <Layout data={dataProps}>
+      <div className={styles.main}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {characters.map((character) => (
+            <div key={character.id} className="flex flex-col h-auto">
+              <h2>{character.name}</h2>
+              <img src={character.image} alt={character.name} />
+              <p>{character.species}</p>
+            </div>
+          ))}
+        </div>
 
- 
-    <div className='w-[70vw]'>
-    <div className="px-30">
-      Victor Ruiz Reyes<br/>
-      vr242355@gmail.com<br/>
-      3153364783
-      
+        <ul id="page-numbers flex-col">{renderPageNumbers()}</ul>
+
+        <div className="w-[70vw]">
+          <div className="px-30">
+            Victor Ruiz Reyes
+            <br />
+            vr242355@gmail.com
+            <br />
+            3153364783
+          </div>
+        </div>
       </div>
-
-     </div>
-
-    </Layout>
-   
-     
-
-     </div>
     </>
-  )
-}
+  );
+};
 /*
 export async function getServerSideProps() {
   const res = await fetch("https://rickandmortyapi.com/api/character/");
@@ -58,17 +103,16 @@ export async function getStaticProps() {
   const res = await fetch("https://rickandmortyapi.com/api/character/");
   const data = await res.json();
   const { results, info } = data;
-  
-  const dataProps   = results.sort((a, b) => a.name.localeCompare(b.name));
-  console.log("desde la fssssu",dataProps);
+
+  const dataProps = results.sort((a, b) => a.name.localeCompare(b.name));
+  console.log("desde la fssssu", dataProps);
   return {
     props: {
-      dataProps
-    }
-  }
+      dataProps,
+    },
+  };
 }
 export default Home;
-
 
 /*
 

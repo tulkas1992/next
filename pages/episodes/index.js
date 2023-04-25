@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import endPoints from "@/services/apis";
 import Image from "next/image";
@@ -6,6 +6,7 @@ import Link from "next/link";
 
 const episodes = () => {
   const [episode, setEpisode] = useState([]);
+  const [search, setSearch] = useState("")
 
   const getEpisodes = async () => {
     const response = await axios.get(endPoints.episode.all);
@@ -17,11 +18,17 @@ const episodes = () => {
   useEffect(() => {
     
      getEpisodes()
+     document.body.className = "hola"
     
   
   }, []);
 
+   
+
   return (
+    <div className=" h-auto ">
+        <h3 className="text-[22px] font-semibold mb-10">Episodios</h3>
+
     <div className="flex flex-wrap h-auto ">
      {episode.length > 0 ? (
   episode.map((locationItem) => (
@@ -44,6 +51,7 @@ const episodes = () => {
   <p>No hay personajes para mostrar.</p>
 )}
 
+    </div>
     </div>
   );
 };

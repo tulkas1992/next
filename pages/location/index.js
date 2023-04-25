@@ -29,7 +29,7 @@ const location = () => {
      {locationsArray.length > 0 ? (
   locationsArray.map((locationItem) => (
     <div key={locationItem.id} className="w-1/3 flex flex-col h-auto p-2  mb-10 ">
-    <Link href={locationItem.url} className="flex items-center bg-primary hover:bg-gray-300 drop-shadow-md p-3 rounded-lg flex-grow">
+    <Link href={"location/"+locationItem.id} className="flex items-center bg-primary hover:bg-gray-300 drop-shadow-md p-3 rounded-lg flex-grow">
 
 
       <Image src="/universe.jpg" width={100} height={100} className="rounded-full object-cover w-[60px] h-[60px] mr-3"></Image>

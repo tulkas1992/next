@@ -53,14 +53,7 @@ const Personajes = () => {
   return (
     <>
       <div className="flex flex-col w-[343px] ">
-        <div>
-          <input
-            type="text"
-            placeholder="Search or filter results"
-            value={value}
-            onChange={handleChange}
-          ></input>
-        </div>
+       
         <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Starred character ({numPersonajesLike})</h3>
         {personajesFavorites &&
           personajesFavorites.map((personaje, index) => (

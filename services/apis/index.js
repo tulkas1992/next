@@ -5,11 +5,13 @@ const endPoints = {
     all: `${API}/api/character`,
     single: (id) => `${API}/api/character/${id}/`,
     getMulti: `${API}/api/categories/`,
-    findCharacter: (params) => API+params
+    findCharacter: (params) => `${API}/api/character/?name=${params}`,
 
   },
   location:{
     all: `${API}/api/location`,
+    single: (id) => `${API}/api/location/${id}/`,
+
   },
   episode:{
     all: `${API}/api/episode`,

@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import Nav from "./personajes";
 import Header from "./Header";
 import Footer from "./Footer";
+import SearchCharacter from "./SearchCharacter";
+
 
 export default function Layout({ children, title, data }) {
   const router = useRouter();
@@ -22,6 +24,8 @@ console.log(data);
         <h2 className="color-[#1F2937] text-[24px] font-[700] mb-[24px]">
           Rick and Morty list
         </h2>
+
+        <SearchCharacter ></SearchCharacter>
 
         <Nav info={data} mensaje="Hola mundo" />
       </nav>

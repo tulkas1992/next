@@ -21,13 +21,7 @@ const Home = ({ dataProps }) => {
     const pageNumbers = [];
 
     pageNumbers.push(
-      <li
-        key={"prev"}
-        onClick={() => handleClick(next)}
-        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-      >
-        atrás
-      </li>
+   
     );
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(
@@ -35,23 +29,16 @@ const Home = ({ dataProps }) => {
           key={i}
           className={
             currentPage === i
-              ? "active bg-primary relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              : "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              ? "hover:bg-primary active bg-primary relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 cursor-pointer focus:outline-offset-0"
+              : "hover:bg-primary relative inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-pointer pointer"
           }
+          onClick={() => handleClick(i)}
         >
-          <button onClick={() => handleClick(i)}>{i}</button>
+          {i}
         </li>
       );
     }
-    pageNumbers.push(
-      <a
-        href="#"
-        key={"nex"}
-        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-      >
-        adelante
-      </a>
-    );
+
 
     return pageNumbers;
   };
@@ -59,19 +46,19 @@ const Home = ({ dataProps }) => {
   return (
     <>
       <div className={styles.main}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {characters.map((character) => (
-            <div key={character.id} className="flex flex-col h-auto">
-              <h2>{character.name}</h2>
-              <img src={character.image} alt={character.name} />
-              <p>{character.species}</p>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-20 ">
+         
+          {characters.map((character, index) => (
+
+            <PersonajesSingle key={index} data={character} />
+          
           ))}
         </div>
 
-        <ul id="page-numbers flex-col">{renderPageNumbers()}</ul>
 
-        <div className="w-[70vw]">
+        <div className="w-auto">
+        <ul id="page-numbers" className="w-auto flex flex-wrap gap-2 mb-20 ">{renderPageNumbers()}</ul>
+
           <div className="px-30">
             Victor Ruiz Reyes
             <br />

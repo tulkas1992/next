@@ -6,9 +6,12 @@ import PersonajesSingle from "../../components/personajeSingle";
 import { useRouter } from "next/router";
 import endPoints from "@/services/apis";
 import Link from "next/link";
+import ButtonAddFavorite from "@/components/ButtonAddFavorite";
 
 export default function personaje({ dataProps }) {
   const [infoPersonajes, setInfoPersonajes] = useState(null);
+  const [episode, setEpisode] = useState(null);
+
   const [id, setId] = useState(null);
   const router = useRouter();
 
@@ -20,21 +23,50 @@ export default function personaje({ dataProps }) {
       const data = await res.json();
       setInfoPersonajes(data);
       setId(id);
-      console.log(data);
     }
+    
 
     if (router.query.id) {
       fetchData();
     }
   }, [router]);
 
+  useEffect(() => {
+    if (infoPersonajes) {
+      fetchepisode(infoPersonajes.episode).then((data) => setEpisode(data));
+    }
+  }, [infoPersonajes]);
+
+  const fetchepisode = async (episode) => {
+    // const characters = episode.episode
+    console.log("asd", episode);
+    // return false;
+    if (!episode || !Array.isArray(episode)) {
+      return null;
+    }
+    const characterPromises = episode.map(async (characterUrl) => {
+      const res = await fetch(characterUrl);
+      const data = await res.json();
+      return data;
+    });
+
+    const characterData = await Promise.all(characterPromises);
+    return characterData;
+  };
+
+
   return (
     <>
-      <div className="w-[70vw] max-lg:b border-b border-1 pb-10 mb-10 border-gray">
-        <img
+      <div className="w-auto max-lg:b border-b border-1 pb-10 mb-10 border-gray">
+        
+        <div className="relative mx-auto w-[175px]"><img
           src={infoPersonajes?.image}
-          className="w-[175px] mx-auto h-auto rounded-full mb-[8px]"
+          className=" mx-auto h-auto rounded-full mb-[8px]"
         />
+        <div className="absolute -top-0 -right-0 cursor-pointer scale-150">
+        <ButtonAddFavorite data={infoPersonajes}></ButtonAddFavorite>
+        </div>
+        </div>
 
         <h1 className="text-[24px] font-[700] color-[#111827] mb-[30px]">
           {infoPersonajes?.name}{" "}
@@ -103,14 +135,22 @@ export default function personaje({ dataProps }) {
         <h3 className="text-[20px] font-[600] color-[#111827] mb-[30px]">
           Episodios
         </h3>
-        {infoPersonajes?.episode &&
-          infoPersonajes.episode.map((item) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+        {episode &&
+          episode.map((item) => {
             return (
-              <Link href={item} key={item} className="block text-[#53C629]">
-                Episodio #{item.split("/").pop()}
+              <div className="p-4 bg-primary rounded-lg shadow-lg ">
+              <Link href={"/episodes/"+item.id} key={item.id} title={item.name} className="block text-[#53C629] mb-1 font-[600] truncate">
+                {item.name}
               </Link>
+                <span className="text-gray-500 text-[12px]">Capítulo: {item.episode}</span>
+               </div> 
+
             );
           })}
+          </div>
+
+          
       </div>
     </>
   );

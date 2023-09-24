@@ -29,17 +29,18 @@ setCharacters(value ? results : false);
 }
   return (
   <div className='relative w-auto'>
+    <div className='text-[14px] text-gray-500 mb-3'>Filtra el nombre de el personaje aca.</div>
     <input
       type="text"
       placeholder="Busca un personaje"
       value={valueFind}
       ref={searchInput}
       onChange={handleChange}
-      className='w-full h-[35px] border border-gray-300 focus:bg-gray-300 focus:outline-none p-2'
+      className='w-full rounded-md shadow-md h-[35px] border border-gray-300 focus:bg-gray-300 focus:outline-none p-2'
 
     ></input>
 {characters && (
-  <div className='z-10 absolute bg-primary mt-2 h-[400px] overflow-y-scroll w-full'>
+  <div className='z-10 absolute bg-primary mt-2 max-h-[400px] overflow-y-scroll w-full'>
     {characters.map((character, index) => (
       <Link href={`/personaje/${character.id}`} className='mb-2'>
         <div key={character.id} className="flex flex-row h-auto  mb-3">
@@ -55,7 +56,7 @@ setCharacters(value ? results : false);
   </div>
 )}
 
-{!characters && (
+{!characters && valueFind  && (
   <div className='mt-5 text-sm'>
     <p>No hay personajes disponibles.</p>
   </div>

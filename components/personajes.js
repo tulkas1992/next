@@ -1,13 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { CharacterContext } from "@/context/CharacterContext";
 import endPoints from "@/services/apis";
 import Link from "next/link";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from 'next/image';
+import ButtonAddFavorite from "./ButtonAddFavorite";
+
 
 const Personajes = () => {
+
+  const { characters, addCharacter, removeCharacter } = useContext(CharacterContext);
+  const newCharacter = { id: 6, name: 'Unity', species: 'Hivemind', gender: 'Non-binary' };
+
   const [personajes, setPersonajes] = useState([]);
-  const [numPersonajesLike, setNumPersonajesLike] = useState(0)
   const [numPersonajesDisLike, setNumPersonajesDisLike] = useState(0)
   const [personajesFavorites, setPersonajesFavorites] = useState([]);
   const [value, setValue] = useState("");
@@ -20,16 +26,16 @@ const Personajes = () => {
     let valor = event.target.value;
   };
 
-  const handleClickLike = (id) => {
+  const handleClickLike = (key) => {
     const objLikePersonaje = personajes.find(
-      (personaje) => personaje.id === id
+      (personaje) => personaje.id === key
     );
     const newPersonajesFavorites = [...personajesFavorites, objLikePersonaje];
-    const newPersonajes = personajes.filter((personaje) => personaje.id !== id);
+    const newPersonajes = personajes.filter((personaje) => personaje.id !== key);
     setPersonajes(newPersonajes);
-    setPersonajesFavorites(newPersonajesFavorites);
-    setNumPersonajesLike(personajesFavorites.length+1)
-    setNumPersonajesDisLike(personajes.length-1)
+    const {id, image, name, species, gender} = objLikePersonaje;
+    addCharacter({id,image,name,species,gender});
+   
   };
 
   useEffect(() => {
@@ -45,7 +51,7 @@ const Personajes = () => {
 
     const filtro = results.sort((a, b) => a.name.localeCompare(b.name));
 
-    setPersonajes(filtro);
+    setPersonajes(filtro.slice(0 - 8));
     setNumPage(info.next);
     
   }
@@ -53,10 +59,10 @@ const Personajes = () => {
   return (
     <>
       <div className="flex flex-col w-[343px] ">
-       
-        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Starred character ({numPersonajesLike})</h3>
-        {personajesFavorites &&
-          personajesFavorites.map((personaje, index) => (
+              
+        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Favoritos ({characters.length})</h3>
+        {characters &&
+          characters.map((personaje, index) => (
             <div
               key={personaje.id}
               id={index}
@@ -77,22 +83,15 @@ const Personajes = () => {
               <Link href={`/personaje/${personaje.id}`}>
 
                 <h2 className="text-[16px] font-[600]">{personaje.name}</h2>
-                  <p>
-                    {personaje.species} - {personaje.status}
+                  <p className="">
+                    {personaje.species} - {personaje.gender}
                   </p>
                 </Link>
               </div>
-              <div className="w-[32px] h-[32px] bg-white flex rounded-full justify-center items-center">
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  color="#53C629"
-                  onClick={(e) => handleClickLike(personaje.id)}
-                  width={20} 
-                />
-              </div>
+              <ButtonAddFavorite data={personaje} remove={true} />
             </div>
           ))}
-        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Characters ({numPersonajesDisLike})</h3>
+        <h3 className="font-[600] text-[13px] mb-[20px] mt-[36px] pl-[17px]">Aleatorios (7)</h3>
 
         {personajes &&
           personajes.map((personaje, index) => (
@@ -101,8 +100,8 @@ const Personajes = () => {
               id={index}
               className={
                 index == 0
-                  ? "col-span-2 flex flex-row p-[20px] hover:bg-primary justify-start items-center m-[5px] hover:rounded-[16px] border-t-[1px] border-gray"
-                  : "col-span-1 flex flex-row p-[20px] hover:bg-primary justify-start items-center m-[5px] hover:rounded-[16px] border-t-[1px] border-gray"
+                  ? "cart-doble"
+                  : "cart-simple"
               }
             >
               <div className="flex items-center">
@@ -123,12 +122,7 @@ const Personajes = () => {
                   </p>
                 </Link>
               </div>
-              <div
-                className="w-[32px] h-[32px] bg-white flex rounded-full justify-center items-center"
-                onClick={(e) => handleClickLike(personaje.id)}
-              >
-                <FontAwesomeIcon icon={faHeart} color="#e5e7eb" width={20} />
-              </div>
+              <ButtonAddFavorite data={personaje} color={false} />
             </div>
           ))}
 

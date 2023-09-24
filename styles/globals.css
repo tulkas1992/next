@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cart-doble{
+    @apply col-span-2 flex flex-row p-[20px] hover:bg-primary justify-start items-center m-[5px] hover:rounded-[16px] border-t-[1px];
+
+}
+.cart-simple{
+    @apply col-span-1 flex flex-row p-[20px] hover:bg-primary justify-start items-center m-[5px] hover:rounded-[16px] border-t-[1px];
+}
+
+.label-alive{
+    @apply bg-green absolute top-0 right-0 px-2 py-1 rounded-bl-lg text-[13px]
+}
+
+.label-none{
+    @apply bg-yellow absolute top-0 right-0 px-2 py-1 rounded-bl-lg text-[13px]
+}

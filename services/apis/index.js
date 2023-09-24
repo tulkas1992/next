@@ -15,6 +15,8 @@ const endPoints = {
   },
   episode:{
     all: `${API}/api/episode`,
+    single: (id) => `${API}/api/episode/${id}/`,
+
   },
 
 };

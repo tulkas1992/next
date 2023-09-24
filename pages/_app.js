@@ -2,24 +2,21 @@ import "../styles/globals.css";
 import Head from "next/head";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Layout from "@/components/layout";
-import ThemeContext from "@/context/ThemeContext";
+import { CharacterProvider } from '../context/CharacterContext';
 
 
 export default function App({ Component, pageProps, dataProps }) {
 
-const valoresContext = {
-  color: "text-white",
-  bg: "bg-black"
-}
-  
+
   return (
     <>
-      <ThemeContext.Provider value={valoresContext}>
+    <CharacterProvider>
         <Layout data={dataProps}>
           <Component {...pageProps} />
         </Layout>
-      </ThemeContext.Provider>
+      </CharacterProvider>
     </>
+    
   );
 }
 
@@ -29,7 +26,6 @@ export async function getStaticProps() {
   const { results, info } = data;
 
   const dataProps = results.sort((a, b) => a.name.localeCompare(b.name));
-  console.log("desde la fssssu", dataProps);
   return {
     props: {
       dataProps,

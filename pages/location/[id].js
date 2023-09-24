@@ -62,7 +62,7 @@
     return (
       <>
 
-      <div className='w-[70vw]'>
+      <div className='w-auto max-lg:b border-b border-1 pb-10 mb-10 border-gray"'>
         <img src={residents?.image} className="w-[175px] mx-auto h-auto rounded-full mb-[8px]" />
 
         <h1 className='text-[24px] font-[700] color-[#111827] mb-[30px]'>{residents?.name} </h1>
@@ -78,7 +78,7 @@
 
       </div>
       <div className='container'>
-        <h3>Residentes en esta dimension</h3>
+        <h3 className='text-[20px] font-[600] color-[#111827] mb-[30px]'>Residentes en esta dimension</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
 
         {locationResidents && locationResidents.map((resident) => (

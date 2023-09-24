@@ -6,7 +6,7 @@ const MyComponents = () => {
   const { characters, addCharacter, removeCharacter } = useContext(CharacterContext);
 
   const handleAddCharacter = () => {
-    const newCharacter = { id: 6, name: 'Unity', species: 'Hivemind', gender: 'Non-binary' };
+    const newCharacter = { id: 6, image: "", name: 'Unity', species: 'Hivemind', gender: 'Non-binary' };
     addCharacter(newCharacter);
   };
 
